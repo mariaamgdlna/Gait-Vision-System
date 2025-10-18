@@ -1,0 +1,45 @@
+#include <WiFi.h>
+
+const char* ssid = "embunpagikavling3";
+const char* password = "embunpagiputri11";
+
+IPAddress local_IP(192, 168, 18, 119);    // IP statis 
+IPAddress gateway(192, 168, 18, 1);        // IP Gateway (router) - disesuaikan dengan network 192.168.18.x
+IPAddress subnet(255, 255, 255, 0);        // Subnet mask
+IPAddress primaryDNS(8, 8, 8, 8);          // DNS Google
+IPAddress secondaryDNS(8, 8, 4, 4);        // DNS Google alternatif
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+  
+  Serial.println("Mengkonfigurasi Static IP...");
+  
+  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+    Serial.println("Konfigurasi Static IP Gagal!");
+  }
+  
+  WiFi.begin(ssid, password);
+  Serial.print("Menghubungkan ke WiFi");
+  
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  
+  Serial.println("");
+  Serial.println("WiFi Terhubung!");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+  Serial.print("Gateway IP: ");
+  Serial.println(WiFi.gatewayIP());
+  Serial.print("Subnet Mask: ");
+  Serial.println(WiFi.subnetMask());
+  Serial.print("DNS 1: ");
+  Serial.println(WiFi.dnsIP(0));
+  Serial.print("DNS 2: ");
+  Serial.println(WiFi.dnsIP(1));
+}
+
+void loop() {
+}
